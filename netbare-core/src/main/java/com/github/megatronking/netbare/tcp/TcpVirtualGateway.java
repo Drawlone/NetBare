@@ -20,11 +20,13 @@ import com.github.megatronking.netbare.gateway.Request;
 import com.github.megatronking.netbare.gateway.Response;
 import com.github.megatronking.netbare.gateway.SpecVirtualGateway;
 import com.github.megatronking.netbare.gateway.VirtualGateway;
+import com.github.megatronking.netbare.http.HttpInterceptorFactory;
 import com.github.megatronking.netbare.ip.Protocol;
 import com.github.megatronking.netbare.net.Session;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -35,13 +37,21 @@ import java.util.List;
  */
 public class TcpVirtualGateway extends SpecVirtualGateway {
 
-    private List<TCPInterceptor> mInterceptors;
-    private TCPRequest mRequest;
-    private TCPResponse mResponse;
+    private final List<TCPInterceptor> mInterceptors;
+    private final TCPRequest mRequest;
+    private final TCPResponse mResponse;
 
-    public TcpVirtualGateway(Session session, Request request, Response response) {
+    public TcpVirtualGateway(Session session, Request request, Response response,
+                             final List<TCPInterceptorFactory> factories) {
         super(Protocol.TCP, session, request, response);
-
+        TCPSession tcpSession = new TCPSession();
+        mRequest = new TCPRequest(tcpSession);
+        mResponse = new TCPResponse(tcpSession);
+        this.mInterceptors = new ArrayList<>(4);
+        mInterceptors.add(new TCPDataParseInterceptor());
+        for(TCPInterceptorFactory factory: factories){
+            mInterceptors.add(factory.create());
+        }
     }
 
     @Override

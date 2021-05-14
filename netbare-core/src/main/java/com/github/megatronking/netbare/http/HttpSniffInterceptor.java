@@ -32,12 +32,9 @@ import java.nio.ByteBuffer;
  * @author Megatron King
  * @since 2018-12-04 11:58
  */
-/* package */ final class HttpSniffInterceptor extends HttpIndexedInterceptor {
+/* package */ public final class HttpSniffInterceptor extends HttpIndexedInterceptor {
 
-    private static final int TYPE_HTTP = 1;
-    private static final int TYPE_HTTPS = 2;
-    private static final int TYPE_INVALID = 3;
-    private static final int TYPE_WHITELIST = 4;
+
 
     private final HttpSession mSession;
 
@@ -52,16 +49,16 @@ import java.nio.ByteBuffer;
                              int index) throws IOException {
         if (index == 0) {
             if (SSLWhiteList.contains(chain.request().ip())) {
-                mType = TYPE_WHITELIST;
+                mType = HttpUtils.TYPE_WHITELIST;
                 NetBareLog.i("detect whitelist ip " + chain.request().ip());
             } else {
-                mType = chain.request().host() == null ? TYPE_INVALID : verifyHttpType(buffer);
+                mType = chain.request().host() == null ? HttpUtils.TYPE_INVALID : HttpUtils.verifyHttpType(buffer);
             }
         }
-        if (mType == TYPE_HTTPS) {
+        if (mType == HttpUtils.TYPE_HTTPS) {
             mSession.isHttps = true;
         }
-        if ((mType == TYPE_INVALID) || (mType == TYPE_WHITELIST)) {
+        if ((mType == HttpUtils.TYPE_INVALID) || (mType == HttpUtils.TYPE_WHITELIST)) {
             chain.processFinal(buffer);
             return;
         }
@@ -71,48 +68,14 @@ import java.nio.ByteBuffer;
     @Override
     protected void intercept(@NonNull HttpResponseChain chain, @NonNull ByteBuffer buffer,
                              int index) throws IOException {
-        if ((mType == TYPE_INVALID) || (mType == TYPE_WHITELIST)) {
+        if ((mType == HttpUtils.TYPE_INVALID) || (mType == HttpUtils.TYPE_WHITELIST)) {
             chain.processFinal(buffer);
             return;
         }
         chain.process(buffer);
     }
 
-    private int verifyHttpType(ByteBuffer buffer) {
-        if (!buffer.hasRemaining()) {
-            return TYPE_INVALID;
-        }
-        byte first = buffer.get(buffer.position());
-        switch (first) {
-            // GET
-            case 'G':
-                // HEAD
-            case 'H':
-                // POST, PUT, PATCH
-            case 'P':
-                // DELETE
-            case 'D':
-                // OPTIONS
-            case 'O':
-                // TRACE
-            case 'T':
-                // CONNECT
-            case 'C':
-                return TYPE_HTTP;
-            // HTTPS
-            case SSLCodec.SSL_CONTENT_TYPE_ALERT:
-            case SSLCodec.SSL_CONTENT_TYPE_APPLICATION_DATA:
-            case SSLCodec.SSL_CONTENT_TYPE_CHANGE_CIPHER_SPEC:
-            case SSLCodec.SSL_CONTENT_TYPE_EXTENSION_HEARTBEAT:
-            case SSLCodec.SSL_CONTENT_TYPE_HANDSHAKE:
-                return TYPE_HTTPS;
-            default:
-                // Unknown first byte data.
-                NetBareLog.e("Unknown first request byte : " + first);
-                break;
-        }
-        return TYPE_INVALID;
-    }
+
 
 
 }

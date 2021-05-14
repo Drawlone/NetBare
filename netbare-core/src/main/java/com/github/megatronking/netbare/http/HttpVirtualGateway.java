@@ -51,7 +51,7 @@ import java.util.List;
 
     /* package */ HttpVirtualGateway(Session session, Request request, Response response, JKS jks,
                                      final List<HttpInterceptorFactory> factories) {
-        super(session, request, response);
+        super(session, request, response, null);
 
         HttpSessionFactory sessionFactory = new HttpSessionFactory();
         this.mHttpZygoteRequest = new HttpZygoteRequest(request, sessionFactory);

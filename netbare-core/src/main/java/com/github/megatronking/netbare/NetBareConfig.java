@@ -91,7 +91,7 @@ public final class NetBareConfig {
     public static NetBareConfig defaultTCPConfig(List<TCPInterceptorFactory> interceptors){
 
         return defaultConfig().newBuilder()
-                .setVirtualGatewayFactory(new TCPVirtualGatewayFactory())
+                .setVirtualGatewayFactory(new TCPVirtualGatewayFactory(interceptors))
                 .addAllowedApplication("com.shenyaocn.android.EasyTCP")  // TCP连接APP
                 .build();
     }

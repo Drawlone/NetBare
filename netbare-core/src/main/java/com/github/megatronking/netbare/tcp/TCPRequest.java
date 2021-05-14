@@ -5,7 +5,7 @@ import com.github.megatronking.netbare.gateway.Request;
 import java.nio.ByteBuffer;
 
 public class TCPRequest extends Request {
-    private TCPSession mSession;
+    private final TCPSession mSession;
 
     TCPRequest(TCPSession session){
         this.mSession = session;
