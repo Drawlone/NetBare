@@ -56,4 +56,9 @@ public class HttpRequestInjectorCallback implements InjectorCallback {
         mChain.process(byteBuffer);
     }
 
+    @Override
+    public void onFinished(ByteBuffer buffer) {
+
+    }
+
 }

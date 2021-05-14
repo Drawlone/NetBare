@@ -23,16 +23,48 @@ import com.github.megatronking.netbare.gateway.VirtualGateway;
 import com.github.megatronking.netbare.ip.Protocol;
 import com.github.megatronking.netbare.net.Session;
 
+import java.io.IOException;
+import java.nio.ByteBuffer;
+import java.util.List;
+
 /**
  * A {@link VirtualGateway} that is responsible for TCP protocol packets interception.
  *
  * @author Megatron King
  * @since 2019-04-06 17:03
  */
-public abstract class TcpVirtualGateway extends SpecVirtualGateway {
+public class TcpVirtualGateway extends SpecVirtualGateway {
+
+    private List<TCPInterceptor> mInterceptors;
+    private TCPRequest mRequest;
+    private TCPResponse mResponse;
 
     public TcpVirtualGateway(Session session, Request request, Response response) {
         super(Protocol.TCP, session, request, response);
+
     }
 
+    @Override
+    protected void onSpecRequest(ByteBuffer buffer) throws IOException {
+        new TCPRequestChain(mRequest, mInterceptors).process(buffer);
+    }
+
+    @Override
+    protected void onSpecResponse(ByteBuffer buffer) throws IOException {
+        new TCPResponseChain(mResponse, mInterceptors).process(buffer);
+    }
+
+    @Override
+    protected void onSpecRequestFinished() {
+        for(TCPInterceptor interceptor: mInterceptors){
+            interceptor.onRequestFinished(mRequest);
+        }
+    }
+
+    @Override
+    protected void onSpecResponseFinished() {
+        for(TCPInterceptor interceptor: mInterceptors){
+            interceptor.onResponseFinished(mResponse);
+        }
+    }
 }

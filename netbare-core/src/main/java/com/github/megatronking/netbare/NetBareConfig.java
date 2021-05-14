@@ -27,6 +27,8 @@ import com.github.megatronking.netbare.net.UidProvider;
 import com.github.megatronking.netbare.ssl.JKS;
 import com.github.megatronking.netbare.ssl.SSLKeyManagerProvider;
 import com.github.megatronking.netbare.ssl.SSLTrustManagerProvider;
+import com.github.megatronking.netbare.tcp.TCPInterceptorFactory;
+import com.github.megatronking.netbare.tcp.TCPVirtualGatewayFactory;
 
 import java.net.InetAddress;
 import java.util.HashSet;
@@ -83,6 +85,14 @@ public final class NetBareConfig {
                                                   List<HttpInterceptorFactory> interceptors) {
         return defaultConfig().newBuilder()
                 .setVirtualGatewayFactory(new HttpVirtualGatewayFactory(jks, interceptors))
+                .build();
+    }
+
+    public static NetBareConfig defaultTCPConfig(List<TCPInterceptorFactory> interceptors){
+
+        return defaultConfig().newBuilder()
+                .setVirtualGatewayFactory(new TCPVirtualGatewayFactory())
+                .addAllowedApplication("com.shenyaocn.android.EasyTCP")  // TCP连接APP
                 .build();
     }
 

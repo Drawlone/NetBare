@@ -18,6 +18,7 @@ package com.github.megatronking.netbare.injector;
 import com.github.megatronking.netbare.stream.Stream;
 
 import java.io.IOException;
+import java.nio.ByteBuffer;
 
 /**
  * A callback invoked when the injector finished the injection.
@@ -34,5 +35,7 @@ public interface InjectorCallback {
      * @throws IOException If an I/O error has occurred.
      */
     void onFinished(Stream stream) throws IOException;
+
+    void onFinished(ByteBuffer buffer);
 
 }

@@ -8,9 +8,11 @@ import android.widget.Button
 import com.github.megatronking.netbare.NetBare
 import com.github.megatronking.netbare.NetBareConfig
 import com.github.megatronking.netbare.NetBareListener
+import com.github.megatronking.netbare.gateway.InterceptorFactory
 import com.github.megatronking.netbare.http.HttpInjectInterceptor
 import com.github.megatronking.netbare.http.HttpInterceptorFactory
 import com.github.megatronking.netbare.ssl.JKS
+import com.github.megatronking.netbare.tcp.TCPInterceptorFactory
 import java.io.IOException
 
 class MainActivity : AppCompatActivity(), NetBareListener {
@@ -77,8 +79,7 @@ class MainActivity : AppCompatActivity(), NetBareListener {
             return
         }
         // 启动NetBare服务
-        mNetBare.start(NetBareConfig.defaultHttpConfig(App.getInstance().getJSK(),
-                interceptorFactories()))
+        mNetBare.start(NetBareConfig.defaultTCPConfig(interceptorFactories()))
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -88,16 +89,12 @@ class MainActivity : AppCompatActivity(), NetBareListener {
         }
     }
 
-    private fun interceptorFactories() : List<HttpInterceptorFactory> {
-        // 拦截器范例1：打印请求url
-        val interceptor1 = HttpUrlPrintInterceptor.createFactory()
-        // 注入器范例1：替换百度首页logo
-        val injector1 = HttpInjectInterceptor.createFactory(BaiduLogoInjector())
-        // 注入器范例2：修改发朋友圈定位
-        val injector2 = HttpInjectInterceptor.createFactory(WechatLocationInjector())
+    private fun interceptorFactories() : List<TCPInterceptorFactory> {
+
         // 可以添加其它的拦截器，注入器
         // ...
-        return listOf(interceptor1, injector1, injector2)
+        val interceptor = TCPTestInterceptor().createFactory()
+        return listOf(interceptor)
     }
 
 
