@@ -36,6 +36,6 @@ public interface InjectorCallback {
      */
     void onFinished(Stream stream) throws IOException;
 
-    void onFinished(ByteBuffer buffer);
+    void onFinished(ByteBuffer buffer) throws IOException;
 
 }

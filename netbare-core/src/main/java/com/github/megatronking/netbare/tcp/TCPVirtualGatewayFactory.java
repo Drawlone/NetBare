@@ -11,7 +11,7 @@ import java.util.List;
 
 public class TCPVirtualGatewayFactory implements VirtualGatewayFactory {
 
-    private List<TCPInterceptorFactory> mFactories;
+    private final List<TCPInterceptorFactory> mFactories;
 
     public TCPVirtualGatewayFactory(List<TCPInterceptorFactory> factories){
         this.mFactories = factories;

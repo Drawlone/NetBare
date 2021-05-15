@@ -41,7 +41,7 @@ public final class HttpUtils {
                 return TYPE_HTTPS;
             default:
                 // Unknown first byte data.
-                NetBareLog.e("Unknown first request byte : " + first);
+                // NetBareLog.e("Unknown first request byte : " + first);
                 break;
         }
         return TYPE_INVALID;

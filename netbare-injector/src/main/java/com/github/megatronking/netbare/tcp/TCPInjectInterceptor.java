@@ -27,7 +27,7 @@ public class TCPInjectInterceptor extends TCPDataInterceptor{
             chain.process(buffer);
             return;
         }
-        mTCPInjector.onRequestInjector(buffer, new TCPRequestInjectorCallback());
+        mTCPInjector.onRequestInjector(buffer, new TCPRequestInjectorCallback(chain));
     }
 
     @Override

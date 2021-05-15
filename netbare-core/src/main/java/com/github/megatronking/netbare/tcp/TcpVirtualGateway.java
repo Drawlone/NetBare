@@ -45,8 +45,8 @@ public class TcpVirtualGateway extends SpecVirtualGateway {
                              final List<TCPInterceptorFactory> factories) {
         super(Protocol.TCP, session, request, response);
         TCPSession tcpSession = new TCPSession();
-        mRequest = new TCPRequest(tcpSession);
-        mResponse = new TCPResponse(tcpSession);
+        mRequest = new TCPRequest(request, tcpSession);
+        mResponse = new TCPResponse(response,tcpSession);
         this.mInterceptors = new ArrayList<>(4);
         mInterceptors.add(new TCPDataParseInterceptor());
         for(TCPInterceptorFactory factory: factories){

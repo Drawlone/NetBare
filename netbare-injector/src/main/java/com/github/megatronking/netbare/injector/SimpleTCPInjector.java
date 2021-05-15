@@ -20,12 +20,12 @@ public class SimpleTCPInjector implements TCPInjector{
     }
 
     @Override
-    public void onRequestInjector(ByteBuffer buffer, @NonNull InjectorCallback callback) {
+    public void onRequestInjector(ByteBuffer buffer, @NonNull InjectorCallback callback) throws IOException {
         callback.onFinished(buffer);
     }
 
     @Override
-    public void onResponseInjector(ByteBuffer buffer, @NonNull InjectorCallback callback)  {
+    public void onResponseInjector(ByteBuffer buffer, @NonNull InjectorCallback callback) throws IOException {
         callback.onFinished(buffer);
     }
 

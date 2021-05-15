@@ -2,13 +2,21 @@ package com.github.megatronking.netbare.tcp;
 
 import com.github.megatronking.netbare.gateway.Request;
 
+import java.io.IOException;
 import java.nio.ByteBuffer;
 
 public class TCPRequest extends Request {
+    private final Request mRequest;
     private final TCPSession mSession;
 
-    TCPRequest(TCPSession session){
+    TCPRequest(Request request, TCPSession session){
+        this.mRequest = request;
         this.mSession = session;
+    }
+
+    @Override
+    public void process(ByteBuffer buffer) throws IOException {
+        mRequest.process(buffer);
     }
 
     TCPSession session(){
@@ -21,11 +29,11 @@ public class TCPRequest extends Request {
 
     @Override
     public String ip() {
-        return super.ip();
+        return mRequest.ip();
     }
 
     @Override
     public int port() {
-        return super.port();
+        return mRequest.port();
     }
 }

@@ -92,7 +92,7 @@ public final class NetBareConfig {
 
         return defaultConfig().newBuilder()
                 .setVirtualGatewayFactory(new TCPVirtualGatewayFactory(interceptors))
-                .addAllowedApplication("com.shenyaocn.android.EasyTCP")  // TCP连接APP
+                .addAllowedApplication("com.simplesockettester")  // TCP连接APP
                 .build();
     }
 

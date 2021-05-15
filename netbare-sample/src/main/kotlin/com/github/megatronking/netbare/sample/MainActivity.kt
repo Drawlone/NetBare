@@ -12,6 +12,7 @@ import com.github.megatronking.netbare.gateway.InterceptorFactory
 import com.github.megatronking.netbare.http.HttpInjectInterceptor
 import com.github.megatronking.netbare.http.HttpInterceptorFactory
 import com.github.megatronking.netbare.ssl.JKS
+import com.github.megatronking.netbare.tcp.TCPInjectInterceptor
 import com.github.megatronking.netbare.tcp.TCPInterceptorFactory
 import java.io.IOException
 
@@ -94,7 +95,8 @@ class MainActivity : AppCompatActivity(), NetBareListener {
         // 可以添加其它的拦截器，注入器
         // ...
         val interceptor = TCPTestInterceptor().createFactory()
-        return listOf(interceptor)
+        val injector = TCPInjectInterceptor.createFactory(TCPTestInjector())
+        return listOf(interceptor, injector)
     }
 
 
