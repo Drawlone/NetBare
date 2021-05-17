@@ -1,6 +1,6 @@
 package com.github.megatronking.netbare.sample;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.megatronking.netbare.injector.InjectorCallback;
 import com.github.megatronking.netbare.injector.SimpleTCPInjector;

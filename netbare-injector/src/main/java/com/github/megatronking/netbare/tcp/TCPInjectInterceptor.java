@@ -1,14 +1,17 @@
 package com.github.megatronking.netbare.tcp;
 
 import android.os.Process;
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
-import com.github.megatronking.netbare.gateway.Interceptor;
 import com.github.megatronking.netbare.injector.TCPInjector;
 
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+/**
+ * @author drawlone
+ * @since 2021/5/15 11:04
+ */
 public class TCPInjectInterceptor extends TCPDataInterceptor{
 
     private boolean mShouldInjectRequest;

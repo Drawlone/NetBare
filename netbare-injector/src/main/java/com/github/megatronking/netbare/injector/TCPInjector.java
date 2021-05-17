@@ -1,6 +1,6 @@
 package com.github.megatronking.netbare.injector;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 
 import com.github.megatronking.netbare.stream.Stream;
 import com.github.megatronking.netbare.tcp.TCPRequest;

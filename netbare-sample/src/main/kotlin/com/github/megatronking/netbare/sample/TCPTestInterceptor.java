@@ -1,6 +1,6 @@
 package com.github.megatronking.netbare.sample;
 
-import android.support.annotation.NonNull;
+import androidx.annotation.NonNull;
 import android.util.Log;
 
 import com.github.megatronking.netbare.tcp.TCPDataInterceptor;
